@@ -1,14 +1,42 @@
-import React, { useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { motion, useInView } from 'framer-motion';
 import { Mail, Phone, MapPin, ExternalLink, Send } from 'lucide-react';
+import Hls from 'hls.js';
 import { WordsPullUp } from './WordsPullUp';
 
 export const Contact: React.FC = () => {
   const containerRef = useRef<HTMLDivElement>(null);
+  const videoRef = useRef<HTMLVideoElement>(null);
   const isInView = useInView(containerRef, { once: true, margin: "-100px" });
 
   const [formState, setFormState] = useState({ name: '', email: '', message: '' });
   const [submitted, setSubmitted] = useState(false);
+
+  useEffect(() => {
+    const video = videoRef.current;
+    if (!video) return;
+
+    const streamUrl = 'https://stream.mux.com/Aa02T7oM1wH5Mk5EEVDYhbZ1ChcdhRsS2m1NYyx4Ua1g.m3u8';
+
+    if (Hls.isSupported()) {
+      const hls = new Hls({
+        maxMaxBufferLength: 10,
+        enableWorker: true
+      });
+      hls.loadSource(streamUrl);
+      hls.attachMedia(video);
+      hls.on(Hls.Events.MANIFEST_PARSED, () => {
+        video.play().catch(e => console.log('HLS contact play error:', e));
+      });
+
+      return () => hls.destroy();
+    } else if (video.canPlayType('application/vnd.apple.mpegurl')) {
+      video.src = streamUrl;
+      video.addEventListener('loadedmetadata', () => {
+        video.play().catch(e => console.log('Native HLS contact play error:', e));
+      });
+    }
+  }, []);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -38,7 +66,7 @@ export const Contact: React.FC = () => {
       {/* Background Video (Flipped Vertically) */}
       <div className="absolute inset-0 w-full h-full z-0 overflow-hidden bg-black">
         <video
-          src="https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260405_170732_8a9ccda6-5cff-4628-b164-059c500a2b41.mp4"
+          ref={videoRef}
           muted
           loop
           playsInline
