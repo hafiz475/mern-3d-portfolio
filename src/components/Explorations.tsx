@@ -94,7 +94,7 @@ export const Explorations: React.FC = () => {
     <section
       ref={sectionRef}
       id="playground" // Map explorations to Playground/explorations section
-      className="relative min-h-[300vh] bg-bg flex flex-col md:flex-row z-10 select-none border-b border-stroke text-left"
+      className={`relative min-h-[300vh] bg-bg flex flex-col md:flex-row select-none border-b border-stroke text-left ${activeItem ? 'z-[99999]' : 'z-10'}`}
     >
       {/* Pinned Left Panel (z-10) */}
       <div className="w-full md:w-1/2 h-screen flex flex-col justify-center items-start px-6 md:px-12 lg:px-20 z-10 pointer-events-none">
