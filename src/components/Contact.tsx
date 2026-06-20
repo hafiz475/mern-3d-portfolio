@@ -34,8 +34,24 @@ export const Contact: React.FC = () => {
   };
 
   return (
-    <section id="contact" className="w-full bg-[#050505] py-24 px-4 sm:px-6 md:px-8 border-t border-white/[0.02]">
-      <div className="max-w-6xl mx-auto flex flex-col items-center">
+    <section id="contact" className="w-full bg-black py-24 px-4 sm:px-6 md:px-8 border-t border-white/[0.02] relative overflow-hidden">
+      {/* Background Video (Flipped Vertically) */}
+      <div className="absolute inset-0 w-full h-full z-0 overflow-hidden bg-black">
+        <video
+          src="https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260405_170732_8a9ccda6-5cff-4628-b164-059c500a2b41.mp4"
+          muted
+          loop
+          playsInline
+          autoPlay
+          className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 min-w-full min-h-full w-auto h-auto object-cover opacity-60 scale-y-[-1]"
+        />
+        {/* Darker overlay */}
+        <div className="absolute inset-0 bg-black/65 z-0" />
+        {/* Top fade */}
+        <div className="absolute top-0 left-0 right-0 h-24 bg-gradient-to-b from-black to-transparent z-[1]" />
+      </div>
+
+      <div className="max-w-6xl mx-auto flex flex-col items-center relative z-10">
         
         {/* Section Title */}
         <div className="mb-16 text-center">

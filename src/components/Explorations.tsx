@@ -206,8 +206,11 @@ export const Explorations: React.FC = () => {
                 
                 {/* Close Button */}
                 <button
-                  onClick={() => setActiveItem(null)}
-                  className="absolute top-4 right-4 w-9 h-9 rounded-full bg-bg/60 hover:bg-bg/90 border border-white/10 flex items-center justify-center text-text-primary text-lg transition-colors duration-300 shadow-md"
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    setActiveItem(null);
+                  }}
+                  className="absolute top-4 right-4 w-9 h-9 rounded-full bg-bg/60 hover:bg-bg/90 border border-white/10 flex items-center justify-center text-text-primary text-lg transition-colors duration-300 shadow-md z-50 cursor-pointer pointer-events-auto"
                 >
                   ✕
                 </button>
